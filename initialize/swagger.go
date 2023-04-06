@@ -1,0 +1,14 @@
+package initialize
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/songcser/gingo/pkg/doc"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
+
+func InitSwagger(r *gin.Engine) {
+	//docs.SwaggerInfo.BasePath = "/api/v1"
+	doc.InitSwagger(doc.SwaggerConfig{Title: "alert service api", Description: "alert service api"})
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+}

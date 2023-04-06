@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex h-screen bg-gray-200 font-roboto">
+    {{ template "sidebar.html" .admins}}
+    <div class="flex-1 flex flex-col overflow-hidden">
+        {{ template "header.html" .user}}
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+            <div class="container mx-auto px-6 py-5">
+                <div>
+                    <a class="px-6 py-2 h-10 bg-blue-600 rounded-md text-white font-normal tracking-wide hover:bg-blue-500"
+                        href="/admin/{{.name}}/form">
+                        {{- with .admin}}
+                        创建{{.Alias}}
+                        {{- end}}
+                    </a>
+                </div>
+                <div class="mt-2 -my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                    <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                        <table class="min-w-full">
+                            <thead>
+                            <tr>
+                                {{- range .header}}
+                                <th class="px-3 py-4 border-b border-gray-200 bg-gray-100 text-left text-sm leading-4 font-medium text-gray-500  tracking-wider">
+                                {{.Label}}
+                                </th>
+                                {{- end}}
+                                <th class="px-3 py-3 border-b border-gray-200 bg-gray-100"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                            {{- $name := .name}}
+                            {{- range .results}}
+                            <tr class="hover:bg-slate-100">
+                                {{- range .}}
+                                <td class="px-3 py-3 border-b border-gray-200 break-words max-w-md">
+                                    {{ .}}
+                                </td>
+                                {{- end}}
+                                <td class=" px-2 py-3 whitespace-nowrap break-normal border-b border-gray-200">
+                                    <a class="text-indigo-600 hover:text-indigo-90"
+                                       href="/admin/{{$name}}/{{index . 0}}">
+                                        编辑
+                                    </a>
+                                    <a class="text-indigo-600 hover:text-indigo-90"
+                                       href="/admin/{{$name}}/delete/{{index . 0}}">
+                                        删除
+                                    </a>
+                                </td>
+                            </tr>
+                            {{- end}}
+                            </tbody>
+                        </table>
+                        <div class="px-5 bg-white py-5 flex flex-col xs:flex-row xs:justify-between">
+                            <div class="flex items-center">
+                                <span class="mr-5">共{{ .totalPage  }}页 / {{ .total }}条</span>
+                                <a href="/admin/{{- .name }}?current={{- .prePage}}&size=10"
+                                   class=" p-4 border text-base rounded-l-xl text-gray-600 bg-white hover:bg-gray-100"
+                                >
+                                    <svg width="9" fill="currentColor" height="8" class="" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z">
+                                        </path>
+                                    </svg>
+                                </a>
+                                {{- $name := .name}}
+                                {{- $current := .current}}
+                                {{- range .pages}}
+                                {{- if eq $current .}}
+                                <a class="px-5 py-2 border-t border-b text-base text-indigo-500 bg-white bg-gray-300 hover:bg-gray-100"
+                                >
+                                    {{ . }}
+                                </a>
+                                {{- else }}
+                                <a class="px-5 py-2 border-t border-b text-base text-indigo-500 bg-white  hover:bg-gray-100"
+                                   href="/admin/{{- $name}}?current={{- .}}&size=10"
+                                >
+                                    {{ . }}
+                                </a>
+                                {{- end}}
+                                {{- end}}
+                                <a class="p-4 border text-base  rounded-r-xl text-gray-600 bg-white hover:bg-gray-100"
+                                   href="/admin/{{- .name }}?current={{- .nextPage}}&size=10">
+                                    <svg width="9" fill="currentColor" height="8" class="" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

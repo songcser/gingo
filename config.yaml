@@ -1,0 +1,27 @@
+domain: 'localhost'
+
+mysql:
+  path: 'localhost'
+  port: '3306'
+  config: 'charset=utf8mb4&parseTime=True&loc=Local'
+  db-name: 'gingo'
+  username: 'root'
+  password: '123456'
+  prefix: "t_" # 全局表前缀，单独定义 TableName 则不生效
+  singular: false # 是否开启全局禁用复数，true表示不开启
+  engine: "" # 引擎，默认InnoDB
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: true
+  log-zap: false
+
+zap: # 日志配置
+  level: info # 日志级别
+  prefix: '[east_white_common_admin/server]' # 日志前缀
+  format: console # 输出
+  director: log # 日志存放的文件
+  encode_level: LowercaseColorLevelEncoder # 编码级别
+  stacktrace_key: stacktrace # 栈名
+  max_age: 0 # 日志留存时间
+  show_line: true # 显示行
+  log_in_console: true # 输出控制台
