@@ -29,8 +29,8 @@ type Admin interface {
 	GetModel(name string) ModelAdmin
 }
 
-func New[T model.Model](m T, name string, alias string, s service.Service) {
-	admin := BaseModelAdmin[T]{Name: name, Alias: alias, Service: s, model: m}
+func New[T model.Model](m T, name string, alias string) {
+	admin := BaseModelAdmin[T]{Name: name, Alias: alias, Service: service.NewBaseService(m), model: m}
 	modelMap = append(modelMap, admin)
 }
 
@@ -53,17 +53,21 @@ func (BaseAdmin) RegisterView(c *gin.Context) {
 func (b BaseAdmin) Login(c *gin.Context) {
 	err := b.User.Login(c)
 	utils.CheckError(err)
-	c.Redirect(http.StatusFound, "/admin")
+	c.Redirect(http.StatusFound, HomePath)
 }
 
 func (b BaseAdmin) Register(c *gin.Context) {
 	err := b.User.Register(c)
 	utils.CheckError(err)
-	c.Redirect(http.StatusFound, "/admin")
+	c.Redirect(http.StatusFound, HomePath)
 }
 
-func (BaseAdmin) Auth() gin.HandlerFunc {
+func (b BaseAdmin) Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		err := b.User.Auth(c)
+		if err != nil {
+			c.Redirect(http.StatusFound, LoginPath)
+		}
 		c.Next()
 	}
 }
@@ -144,7 +148,7 @@ func (b BaseAdmin) AddItem(c *gin.Context) {
 	a := b.GetModel(obj)
 	err := a.Add(c)
 	if err == nil {
-		c.Redirect(http.StatusFound, "/admin/"+obj)
+		c.Redirect(http.StatusFound, HomePath+obj)
 	}
 }
 
@@ -170,7 +174,7 @@ func (b BaseAdmin) EditItem(c *gin.Context) {
 	a := b.GetModel(obj)
 	err := a.Edit(c)
 	if err == nil {
-		c.Redirect(http.StatusFound, "/admin/"+obj)
+		c.Redirect(http.StatusFound, HomePath+obj)
 	}
 }
 
@@ -179,7 +183,7 @@ func (b BaseAdmin) DeleteItem(c *gin.Context) {
 	a := b.GetModel(obj)
 	err := a.Delete(c)
 	if err == nil {
-		c.Redirect(http.StatusFound, "/admin/"+obj)
+		c.Redirect(http.StatusFound, HomePath+obj)
 	}
 }
 

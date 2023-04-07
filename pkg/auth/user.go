@@ -14,6 +14,7 @@ import (
 type User interface {
 	Login(c *gin.Context) error
 	Register(c *gin.Context) error
+	Auth(c *gin.Context) error
 }
 
 type BaseUser struct {
@@ -59,9 +60,23 @@ func (b BaseUser) Register(c *gin.Context) error {
 	return err
 }
 
+func (b BaseUser) Auth(c *gin.Context) error {
+	token, err := c.Cookie("token")
+	if err != nil {
+		return err
+	}
+	j := utils.NewJWT()
+	claims, err := j.ParseToken(token)
+	if err != nil {
+		return err
+	}
+	c.Set("user", claims.Username)
+	return nil
+}
+
 func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
-	j := &JWT{SigningKey: []byte(config.GVA_CONFIG.JWT.SigningKey)} // 唯一签名
-	claims := j.CreateClaims(BaseClaims{
+	j := utils.NewJWT()
+	claims := j.CreateClaims(utils.BaseClaims{
 		ID:       user.ID,
 		Username: user.Name,
 	})

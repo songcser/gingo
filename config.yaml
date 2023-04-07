@@ -1,5 +1,11 @@
 domain: 'localhost'
 
+jwt:
+  signing-key: 'gingo'
+  expires-time: 604800
+  buffer-time: 86400
+  issuer: 'gingo'
+
 mysql:
   path: 'localhost'
   port: '3306'

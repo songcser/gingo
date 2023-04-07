@@ -1,9 +1,8 @@
-package auth
+package utils
 
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v4"
-	uuid "github.com/satori/go.uuid"
 	"github.com/songcser/gingo/config"
 	"golang.org/x/sync/singleflight"
 	"time"
@@ -12,15 +11,12 @@ import (
 type CustomClaims struct {
 	BaseClaims
 	BufferTime int64
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 type BaseClaims struct {
-	UUID        uuid.UUID
-	ID          int64
-	Username    string
-	Nickname    string
-	AuthorityId string
+	ID       int64
+	Username string
 }
 
 type JWT struct {
@@ -44,10 +40,10 @@ func (j *JWT) CreateClaims(baseClaims BaseClaims) CustomClaims {
 	claims := CustomClaims{
 		BaseClaims: baseClaims,
 		BufferTime: config.GVA_CONFIG.JWT.BufferTime, // 缓冲时间1天 缓冲时间内会获得新的token刷新令牌 此时一个用户会存在两个有效令牌 但是前端只留一个 另一个会丢失
-		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix() - 1000,                              // 签名生效时间
-			ExpiresAt: time.Now().Unix() + config.GVA_CONFIG.JWT.ExpiresTime, // 过期时间 7天  配置文件
-			Issuer:    config.GVA_CONFIG.JWT.Issuer,                          // 签名的发行者
+		RegisteredClaims: jwt.RegisteredClaims{
+			NotBefore: jwt.NewNumericDate(time.Now().Add(-time.Millisecond)),                                                   // 签名生效时间
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Millisecond * time.Duration(config.GVA_CONFIG.JWT.ExpiresTime))), // 过期时间 7天  配置文件
+			Issuer:    config.GVA_CONFIG.JWT.Issuer,                                                                            // 签名的发行者
 		},
 	}
 	return claims

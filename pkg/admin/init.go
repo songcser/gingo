@@ -5,6 +5,12 @@ import (
 	"github.com/songcser/gingo/pkg/auth"
 )
 
+var (
+	LoginPath    = "/admin/login/"
+	RegisterPath = "/admin/register/"
+	HomePath     = "/admin/auth/"
+)
+
 func Init(r *gin.Engine, a Admin) {
 
 	if a == nil {
@@ -13,12 +19,12 @@ func Init(r *gin.Engine, a Admin) {
 		}
 	}
 	r.HTMLRender = a.Render()
-	r.GET("/admin/login", a.LoginView)
-	r.GET("/admin/register", a.RegisterView)
-	r.POST("/admin/login", a.Login)
-	r.POST("/admin/register", a.Register)
+	r.GET(LoginPath, a.LoginView)
+	r.GET(RegisterPath, a.RegisterView)
+	r.POST(LoginPath, a.Login)
+	r.POST(RegisterPath, a.Register)
 
-	g := r.Group("admin")
+	g := r.Group(HomePath)
 	g.Use(a.Auth())
 	g.GET("/", a.Home)
 	g.GET(":model", a.List)
