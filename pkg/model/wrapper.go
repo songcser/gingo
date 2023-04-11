@@ -35,36 +35,8 @@ func (w *wrapper) isZeroOfUnderlyingType(x interface{}) bool {
 }
 
 func (w *wrapper) append(name string, params interface{}, flag int, force bool) {
-
-	if !force {
-		value := reflect.ValueOf(params)
-		kind := value.Kind()
-		switch kind {
-		case reflect.String:
-			if value.Len() == 0 {
-				return
-			}
-		//case reflect.Ptr:
-		//	if params == nil {
-		//		return
-		//	}
-		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			if value.Int() == 0 {
-				return
-			}
-		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-			if value.Uint() == 0 {
-				return
-			}
-		case reflect.Float32, reflect.Float64:
-			if value.Float() == 0 {
-				return
-			}
-		case reflect.Slice, reflect.Array:
-			if value.Len() == 0 {
-				return
-			}
-		}
+	if !force && w.isZeroOfUnderlyingType(params) {
+		return
 	}
 	i := item{Name: name, Params: params, Flag: flag}
 	w.where = append(w.where, i)
