@@ -30,11 +30,10 @@ func (b BaseUser) Login(c *gin.Context) error {
 	utils.CheckError(err)
 	m := BaseUser{Name: req.Username}
 	mapper := model.NewMapper[BaseUser](m, nil)
-	u, err := mapper.QueryOne()
+	user, err := mapper.SelectOne()
 	if err != nil {
 		return errors.Errorf("用户不存在: %s", req.Username)
 	}
-	user := u.(BaseUser)
 	if ok := utils.BcryptCheck(req.Password, user.Password); !ok {
 		return errors.New("用户名或密码错误")
 	}
@@ -47,7 +46,7 @@ func (b BaseUser) Register(c *gin.Context) error {
 	utils.CheckError(err)
 	m := BaseUser{Name: req.Username}
 	mapper := model.NewMapper[BaseUser](m, nil)
-	_, err = mapper.QueryOne()
+	_, err = mapper.SelectOne()
 	if err == nil {
 		return errors.Errorf("用户已存在: %s", req.Username)
 	}

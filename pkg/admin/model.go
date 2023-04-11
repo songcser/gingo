@@ -1,11 +1,12 @@
 package admin
 
 type Form struct {
-	Label string
-	Type  string
-	Name  string
-	Enum  []Enum
-	Value any
+	Label   string
+	Type    string
+	Name    string
+	Enum    []Enum
+	Value   any
+	Disable bool
 }
 
 type Header struct {
@@ -14,22 +15,15 @@ type Header struct {
 }
 
 type Tag struct {
-	Label string
-	Type  string
-	Name  string
-	Admin bool
-	Enum  []Enum
+	Label   string
+	Type    string
+	Name    string
+	Admin   bool
+	Enum    []Enum
+	Disable bool
 }
 
 type Enum struct {
 	Key   string
 	Value string
-}
-
-type SsoUser struct {
-	Error     string `json:"error"`
-	Retval    string `json:"retval"`
-	Username  string `json:"username"`
-	GivenName string `json:"given_name"`
-	Email     string `json:"email"`
 }

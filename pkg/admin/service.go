@@ -30,7 +30,7 @@ type BaseModelAdmin[T model.Model] struct {
 	model   T
 	Name    string
 	Alias   string
-	Service service.Service
+	Service service.Service[T]
 }
 
 func (b BaseModelAdmin[T]) Add(c *gin.Context) error {
@@ -176,7 +176,12 @@ func (b BaseModelAdmin[T]) parseTag(tag reflect.StructTag) (Tag, bool) {
 		labels := strings.Split(adminTag, ";")
 		for _, label := range labels {
 			lab := strings.Split(label, ":")
-			if len(lab) < 2 {
+			if len(lab) == 1 {
+				if lab[0] == "disable" {
+					tags.Disable = true
+				}
+				continue
+			} else if len(lab) < 2 {
 				continue
 			}
 			labelName := lab[0]
@@ -212,7 +217,13 @@ func (b BaseModelAdmin[T]) parseTag(tag reflect.StructTag) (Tag, bool) {
 func (b BaseModelAdmin[T]) addFormByTag(tag reflect.StructTag, forms *[]Form) {
 	tags, ok := b.parseTag(tag)
 	if ok && tags.Name != "id" && tags.Name != "createdAt" && tags.Name != "updatedAt" {
-		f := Form{Label: tags.Label, Type: tags.Type, Name: tags.Name, Enum: tags.Enum}
+		f := Form{
+			Label:   tags.Label,
+			Type:    tags.Type,
+			Name:    tags.Name,
+			Enum:    tags.Enum,
+			Disable: tags.Disable,
+		}
 		*forms = append(*forms, f)
 	}
 }
@@ -223,7 +234,14 @@ func (b BaseModelAdmin[T]) addFormValueByTag(tag reflect.StructTag, forms *[]For
 		if val, o := value.(utils.JsonTime); o {
 			value = utils.JsonTimeFormat(val)
 		}
-		f := Form{Label: tags.Label, Type: tags.Type, Name: tags.Name, Value: value, Enum: tags.Enum}
+		f := Form{
+			Label:   tags.Label,
+			Type:    tags.Type,
+			Name:    tags.Name,
+			Value:   value,
+			Enum:    tags.Enum,
+			Disable: tags.Disable,
+		}
 		*forms = append(*forms, f)
 	}
 }

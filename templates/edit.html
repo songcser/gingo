@@ -28,13 +28,30 @@
                                     {{- end}}
                                 </select>
                             </div>
+                            {{- else if eq $value.Type "textarea" }}
+                                <textarea name="{{$value.Name}}" class="form-textarea  block mb-2 mt-1 w-full rounded">{{$value.Value}}</textarea>
+                            {{- else if eq $value.Type "radio" }}
+                                <div class="block mb-2 mt-1">
+                                    {{- range .Enum}}
+                                    <label class="ml-1 mr-2 p-1">
+                                        <input type="radio" class="form-radio p-1" name="{{$value.Name}}" value='{{.Key}}'/> {{.Value}}
+                                    </label>
+                                    {{- end}}
+                                </div>
                             {{- else }}
-                            <input class="form-input w-full mt-1 mb-2 rounded-md focus:border-indigo-600 border"
-                                   type="{{$value.Type}}" name="{{$value.Name}}" value="{{$value.Value}}"
-                            />
+                            {{- if $value.Disable}}
+                                <input class="form-input w-full mt-1 mb-2 rounded-md focus:border-indigo-600 border bg-gray-300"
+                                       type="{{$value.Type}}" name="{{$value.Name}}" value="{{$value.Value}}"
+                                        disabled
+                                />
+                            {{- else }}
+                                <input class="form-input w-full mt-1 mb-2 rounded-md focus:border-indigo-600 border"
+                                       type="{{$value.Type}}" name="{{$value.Name}}" value="{{$value.Value}}"
+                                />
+                            {{- end}}
                             {{- end}}
                         {{- end}}
-                        <input type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-500 focus:outline-none">
+                        <input type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded-md  hover:bg-indigo-500 focus:outline-none">
                     </form>
                 </div>
             </div>

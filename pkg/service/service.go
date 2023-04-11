@@ -6,13 +6,13 @@ import (
 	"github.com/songcser/gingo/utils"
 )
 
-type Service interface {
-	MakeMapper(g *gin.Context) model.Mapper
+type Service[T model.Model] interface {
+	MakeMapper(g *gin.Context) model.Mapper[T]
 	MakeResponse(val model.Model) any
-	Query(g *gin.Context, mapper model.Mapper) model.Page
-	Get(id int64) (model.Model, error)
+	Query(g *gin.Context, mapper model.Mapper[T]) model.Page
+	Get(id int64) (T, error)
 	Create(data any) error
-	Update(id int64, data model.Model) error
+	Update(id int64, data T) error
 	Delete(id int64) error
 }
 
@@ -33,12 +33,12 @@ func (bs BaseService[T]) MakeResponse(val model.Model) any {
 	return val
 }
 
-func (bs BaseService[T]) MakeMapper(c *gin.Context) model.Mapper {
+func (bs BaseService[T]) MakeMapper(c *gin.Context) model.Mapper[T] {
 	m := model.NewMapper[T](bs.Model, nil)
 	return m
 }
 
-func (bs BaseService[T]) Query(c *gin.Context, mapper model.Mapper) model.Page {
+func (bs BaseService[T]) Query(c *gin.Context, mapper model.Mapper[T]) model.Page {
 	var req pageReq
 	err := c.ShouldBindQuery(&req)
 	utils.CheckError(err)
@@ -53,7 +53,7 @@ func (bs BaseService[T]) Query(c *gin.Context, mapper model.Mapper) model.Page {
 	return page
 }
 
-func (bs BaseService[T]) Get(id int64) (model.Model, error) {
+func (bs BaseService[T]) Get(id int64) (T, error) {
 	mapper := model.NewMapper(bs.Model, nil)
 	val, err := mapper.GetById(id)
 	return val, err
@@ -64,7 +64,7 @@ func (bs BaseService[T]) Create(data any) error {
 	return mapper.Insert(data)
 }
 
-func (bs BaseService[T]) Update(id int64, data model.Model) error {
+func (bs BaseService[T]) Update(id int64, data T) error {
 	mapper := model.NewMapper(bs.Model, nil)
 	return mapper.UpdatesById(id, data)
 }

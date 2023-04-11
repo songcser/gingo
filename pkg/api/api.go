@@ -19,10 +19,10 @@ type Api interface {
 }
 
 type BaseApi[T model.Model] struct {
-	Service service.Service
+	Service service.Service[T]
 }
 
-func NewApi[T model.Model](s service.Service) BaseApi[T] {
+func NewApi[T model.Model](s service.Service[T]) BaseApi[T] {
 	return BaseApi[T]{Service: s}
 }
 
