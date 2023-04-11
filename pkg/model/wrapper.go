@@ -30,56 +30,38 @@ type wrapper struct {
 	distinct []string
 }
 
+func (w *wrapper) isZeroOfUnderlyingType(x interface{}) bool {
+	return reflect.DeepEqual(x, reflect.Zero(reflect.TypeOf(x)).Interface())
+}
+
 func (w *wrapper) append(name string, params interface{}, flag int, force bool) {
 
 	if !force {
-		typeOf := reflect.TypeOf(params)
-		kind := typeOf.Kind()
+		value := reflect.ValueOf(params)
+		kind := value.Kind()
 		switch kind {
 		case reflect.String:
-			if params == "" {
+			if value.Len() == 0 {
 				return
 			}
 		//case reflect.Ptr:
 		//	if params == nil {
 		//		return
 		//	}
-		case reflect.Int:
-			if params.(int) == 0 {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			if value.Int() == 0 {
 				return
 			}
-		case reflect.Int8:
-			if params.(int8) == int8(0) {
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+			if value.Uint() == 0 {
 				return
 			}
-		case reflect.Int16:
-			if params.(int16) == int16(0) {
-				return
-			}
-		case reflect.Int32:
-			if params.(int32) == int32(0) {
-				return
-			}
-		case reflect.Int64:
-			if params.(int64) == int64(0) {
-				return
-			}
-		case reflect.Uint:
-			if params.(uint) == uint(0) {
-				return
-			}
-		case reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-			if params.(uint64) == uint64(0) {
-				return
-			}
-
 		case reflect.Float32, reflect.Float64:
-			if params.(float64) == float64(0) {
+			if value.Float() == 0 {
 				return
 			}
 		case reflect.Slice, reflect.Array:
-			s := reflect.ValueOf(params)
-			if s.Len() == 0 {
+			if value.Len() == 0 {
 				return
 			}
 		}
