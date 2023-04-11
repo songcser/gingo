@@ -10,6 +10,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	enTranslations "github.com/go-playground/validator/v10/translations/en"
 	zhTranslations "github.com/go-playground/validator/v10/translations/zh"
+	"github.com/songcser/gingo/internal/app"
 	"github.com/songcser/gingo/pkg/doc"
 	"github.com/songcser/gingo/pkg/response"
 	"net/http"
@@ -78,7 +79,8 @@ func Routers() *gin.Engine {
 	InitSwagger(Router)
 	InitAdmin(Router)
 
-	//ApiGroup := Router.Group("api/v1")
+	ApiGroup := Router.Group("api/v1")
+	app.InitRouter(ApiGroup)
 
 	//PrivateGroup := Router.Group("api/v1/private")
 
