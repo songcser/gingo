@@ -199,7 +199,7 @@ func (b BaseModelAdmin[T]) parseTag(tag reflect.StructTag) (Tag, bool) {
 				values := strings.Split(labelValue, ",")
 				enums := make([]Enum, 0, len(values))
 				for _, enum := range values {
-					e := strings.Split(enum, "|")
+					e := strings.Split(enum, "=")
 					if len(e) > 1 {
 						enums = append(enums, Enum{Key: e[0], Value: e[1]})
 					} else {

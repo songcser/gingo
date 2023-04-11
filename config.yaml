@@ -2,8 +2,8 @@ domain: 'localhost'
 
 jwt:
   signing-key: 'gingo'
-  expires-time: 604800
-  buffer-time: 86400
+  expires-time: 604800000
+  buffer-time: 86400000
   issuer: 'gingo'
 
 mysql:

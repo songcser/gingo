@@ -18,12 +18,12 @@
                             <label class="text-gray-700 mt-1 ">{{ $value.Label }}</label>
                             {{- if eq $value.Type "select" }}
                             <div>
-                                <select name="{{.Name}}" class="form-select px-4 w-full rounded">
+                                <select name="{{.Name}}" class="form-select px-4 w-full rounded mb-2 mt-1">
                                     {{- range $value.Enum}}
-                                    {{- if eq . $value.Value}}
-                                    <option value="{{.}}" selected="selected" >{{.}}</option>
+                                    {{- if eq .Key $value.Value}}
+                                    <option value="{{.Key}}" selected="selected" >{{.Value}}</option>
                                     {{- else }}
-                                    <option value="{{.}}"  >{{.}}</option>
+                                    <option value="{{.Key}}"  >{{.Value}}</option>
                                     {{- end}}
                                     {{- end}}
                                 </select>
@@ -34,7 +34,11 @@
                                 <div class="block mb-2 mt-1">
                                     {{- range .Enum}}
                                     <label class="ml-1 mr-2 p-1">
-                                        <input type="radio" class="form-radio p-1" name="{{$value.Name}}" value='{{.Key}}'/> {{.Value}}
+                                        {{- if eq .Key $value.Value}}
+                                        <input type="radio" class="form-radio p-1 mb-2 mt-1" name="{{$value.Name}}" value='{{.Key}}' checked="true"/> {{.Value}}
+                                        {{- else }}
+                                        <input type="radio" class="form-radio p-1 mb-2 mt-1" name="{{$value.Name}}" value='{{.Key}}'/> {{.Value}}
+                                        {{- end}}
                                     </label>
                                     {{- end}}
                                 </div>
