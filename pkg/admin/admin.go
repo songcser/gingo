@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gphper/multitemplate"
+	"github.com/songcser/gingo/config"
 	"github.com/songcser/gingo/pkg/auth"
 	"github.com/songcser/gingo/pkg/model"
 	"github.com/songcser/gingo/pkg/service"
@@ -31,11 +32,11 @@ type Admin interface {
 
 func New[T model.Model](m T, name string, alias string) {
 	admin := BaseModelAdmin[T]{Name: name, Alias: alias, Service: service.NewBaseService(m), model: m}
-	modelMap = append(modelMap, admin)
+	factory.Add(admin)
 }
 
 func NewAdmin(a ModelAdmin) {
-	modelMap = append(modelMap, a)
+	factory.Add(a)
 }
 
 type BaseAdmin struct {
@@ -64,6 +65,10 @@ func (b BaseAdmin) Register(c *gin.Context) {
 
 func (b BaseAdmin) Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if !config.GVA_CONFIG.Admin.Auth {
+			c.Next()
+			return
+		}
 		err := b.User.Auth(c)
 		if err != nil {
 			c.Redirect(http.StatusFound, LoginPath)
@@ -199,18 +204,9 @@ func (BaseAdmin) Render() multitemplate.Renderer {
 }
 
 func (BaseAdmin) GetModels() []ModelAdmin {
-	var admins = make([]ModelAdmin, 0, len(modelMap))
-	for _, a := range modelMap {
-		admins = append(admins, a)
-	}
-	return admins
+	return factory.GetAll()
 }
 
 func (BaseAdmin) GetModel(name string) ModelAdmin {
-	for _, a := range modelMap {
-		if a.GetName() == name {
-			return a
-		}
-	}
-	return nil
+	return factory.Get(name)
 }

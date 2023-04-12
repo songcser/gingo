@@ -134,6 +134,6 @@ func Zap() (logger *zap.Logger) {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
 
-	fmt.Println("====2-zap====: zap log init success")
+	fmt.Println("zap初始化成功")
 	return logger
 }

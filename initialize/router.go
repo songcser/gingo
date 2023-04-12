@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/songcser/gingo/config"
 	"github.com/songcser/gingo/internal/app"
 	"github.com/songcser/gingo/middleware"
-	"github.com/songcser/gingo/pkg/doc"
 	"github.com/songcser/gingo/utils"
 	"net/http"
 )
@@ -16,6 +16,7 @@ func HealthCheck(g *gin.Context) {
 func Routers() *gin.Engine {
 
 	if err := utils.Translator("zh"); err != nil {
+		config.GVA_LOG.Error(err.Error())
 		return nil
 	}
 
@@ -33,8 +34,5 @@ func Routers() *gin.Engine {
 	ApiGroup := Router.Group("api/v1")
 	app.InitRouter(ApiGroup)
 
-	//PrivateGroup := Router.Group("api/v1/private")
-
-	doc.GenerateSwagger()
 	return Router
 }

@@ -1,5 +1,9 @@
 domain: 'localhost'
 
+admin:
+  enable: true
+  auth: false
+
 jwt:
   signing-key: 'gingo'
   expires-time: 604800000

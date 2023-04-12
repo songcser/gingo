@@ -11,8 +11,6 @@ import (
 	"strings"
 )
 
-var modelMap = make([]ModelAdmin, 0)
-
 type ModelAdmin interface {
 	Query(c *gin.Context) model.Page
 	Add(c *gin.Context) error
@@ -25,6 +23,29 @@ type ModelAdmin interface {
 	FormValue(data model.Model) *[]Form
 	FormatData(header *[]Header, data *[]model.Model) [][]string
 }
+
+type ModelAdminFactory struct {
+	models []ModelAdmin
+}
+
+func (f *ModelAdminFactory) Add(a ModelAdmin) {
+	f.models = append(f.models, a)
+}
+
+func (f *ModelAdminFactory) Get(name string) ModelAdmin {
+	for _, a := range f.models {
+		if a.GetName() == name {
+			return a
+		}
+	}
+	return nil
+}
+
+func (f *ModelAdminFactory) GetAll() []ModelAdmin {
+	return f.models
+}
+
+var factory = &ModelAdminFactory{models: make([]ModelAdmin, 0)}
 
 type BaseModelAdmin[T model.Model] struct {
 	model   T

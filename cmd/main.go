@@ -38,6 +38,7 @@ func main() {
 	config.GVA_LOG = initialize.Zap()
 	zap.ReplaceGlobals(config.GVA_LOG)
 
+	// 初始化数据库
 	config.GVA_DB = initialize.Gorm() // gorm连接数据库
 	if config.GVA_DB != nil {
 		// 程序结束前关闭数据库链接
@@ -45,10 +46,13 @@ func main() {
 		defer db.Close()
 	}
 
-	if config.GVA_JOB != nil {
-		defer config.GVA_JOB.Stop()
-	}
+	// 初始化Router
 	router := initialize.Routers()
+	if router == nil {
+		return
+	}
+
+	// 初始化Admin
 	initialize.Admin(router)
 
 	runServer(router)

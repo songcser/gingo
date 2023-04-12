@@ -30,22 +30,22 @@ func Viper(path ...string) *viper.Viper {
 				switch gin.Mode() {
 				case gin.DebugMode:
 					cfg = ConfigDefaultFile
-					fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigDefaultFile)
+					fmt.Printf("正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigDefaultFile)
 				case gin.ReleaseMode:
 					cfg = ConfigReleaseFile
-					fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigReleaseFile)
+					fmt.Printf("正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigReleaseFile)
 				case gin.TestMode:
 					cfg = ConfigTestFile
-					fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigTestFile)
+					fmt.Printf("正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, ConfigTestFile)
 				}
 			} else {
 				// internal.ConfigEnv 常量存储的环境变量不为空 将值赋值于config
 				cfg = configEnv
-				fmt.Printf("您正在使用%s环境变量,config的路径为%s\n", ConfigEnv, cfg)
+				fmt.Printf("正在使用%s环境变量,config的路径为%s\n", ConfigEnv, cfg)
 			}
 		} else {
 			cfg = "config.yaml"
-			fmt.Printf("您正在使用命令行的-c参数传递的值,config的路径为%s\n", cfg)
+			fmt.Printf("正在使用命令行的-c参数传递的值,config的路径为%s\n", cfg)
 		}
 	} else {
 		cfg = path[0]
