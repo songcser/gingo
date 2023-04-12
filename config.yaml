@@ -24,7 +24,7 @@ mysql:
 zap: # 日志配置
   level: info # 日志级别
   prefix: '[east_white_common_admin/server]' # 日志前缀
-  format: console # 输出
+  format: json # 输出
   director: log # 日志存放的文件
   encode_level: LowercaseColorLevelEncoder # 编码级别
   stacktrace_key: stacktrace # 栈名

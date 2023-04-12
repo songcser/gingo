@@ -6,7 +6,7 @@ import (
 	"github.com/songcser/gingo/pkg/admin"
 )
 
-func InitAdmin(r *gin.Engine) {
+func Admin(r *gin.Engine) {
 	admin.Init(r, nil)
 	app.Admin()
 }

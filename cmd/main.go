@@ -13,13 +13,12 @@ type server interface {
 	ListenAndServe() error
 }
 
-func RunWindowServer() {
-
-	Router := initialize.Routers()
+func runServer(r *gin.Engine) {
 	address := ":8080"
-	s := initServer(address, Router)
+	s := initServer(address, r)
 
 	if err := s.ListenAndServe(); err != nil {
+		config.GVA_LOG.Error(err.Error())
 	}
 }
 
@@ -50,5 +49,9 @@ func main() {
 	if config.GVA_JOB != nil {
 		defer config.GVA_JOB.Stop()
 	}
-	RunWindowServer()
+	router := initialize.Routers()
+	initialize.Admin(router)
+	initialize.Swagger(router)
+
+	runServer(router)
 }
