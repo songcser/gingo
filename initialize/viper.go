@@ -44,7 +44,7 @@ func Viper(path ...string) *viper.Viper {
 				fmt.Printf("正在使用%s环境变量,config的路径为%s\n", ConfigEnv, cfg)
 			}
 		} else {
-			cfg = "config.yaml"
+			cfg = "config/config.yaml"
 			fmt.Printf("正在使用命令行的-c参数传递的值,config的路径为%s\n", cfg)
 		}
 	} else {

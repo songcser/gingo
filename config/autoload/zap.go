@@ -1,4 +1,4 @@
-package config
+package autoload
 
 import (
 	"go.uber.org/zap/zapcore"

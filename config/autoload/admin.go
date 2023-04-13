@@ -1,4 +1,4 @@
-package config
+package autoload
 
 type Admin struct {
 	Enable bool `mapstructure:"enable" json:"enable" yaml:"enable"`

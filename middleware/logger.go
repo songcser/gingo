@@ -65,7 +65,7 @@ func Logger() gin.HandlerFunc {
 			zap.String("response_time", utils.TimeFormat(endTime)),
 			zap.String("request", string(s)),
 			zap.String("response", responseBody),
-			zap.String("duration", endTime.Sub(startTime).String()),
+			zap.String("cost_time", endTime.Sub(startTime).String()),
 		)
 	}
 }

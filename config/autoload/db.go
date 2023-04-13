@@ -1,4 +1,4 @@
-package config
+package autoload
 
 type GeneralDB struct {
 	Path         string `mapstructure:"path" json:"path" yaml:"path"`                               // 服务器地址:端口
@@ -14,16 +14,4 @@ type GeneralDB struct {
 	MaxOpenConns int    `mapstructure:"max-open-conns" json:"max-open-conns" yaml:"max-open-conns"` // 打开到数据库的最大连接数
 	LogMode      string `mapstructure:"log-mode" json:"log-mode" yaml:"log-mode"`                   // 是否开启Gorm全局日志
 	LogZap       bool   `mapstructure:"log-zap" json:"log-zap" yaml:"log-zap"`                      // 是否通过zap写入日志文件
-}
-
-type Mysql struct {
-	GeneralDB `yaml:",inline" mapstructure:",squash"`
-}
-
-func (m *Mysql) Dsn() string {
-	return m.Username + ":" + m.Password + "@tcp(" + m.Path + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
-}
-
-func (m *Mysql) GetLogMode() string {
-	return m.LogMode
 }
