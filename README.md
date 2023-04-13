@@ -535,6 +535,11 @@ type App struct {
 }
 ```
 
+* type: 字段类型，取值 input, textarea, select, radio。
+* name: 字段名称
+* label: 字段展示名称
+* enum: 枚举数据，在select，radio类型时展示更加友好
+
 **_需要添加 form 标签，由于是使用 html 的 form 提交数据。_**
 
 访问链接
