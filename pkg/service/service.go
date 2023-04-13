@@ -7,9 +7,9 @@ import (
 )
 
 type Service[T model.Model] interface {
-	MakeMapper(g *gin.Context) model.Mapper[T]
+	MakeMapper(c *gin.Context) model.Mapper[T]
 	MakeResponse(val model.Model) any
-	Query(g *gin.Context, mapper model.Mapper[T]) model.Page
+	Query(c *gin.Context, mapper model.Mapper[T]) model.Page
 	Get(id int64) (T, error)
 	Create(data any) error
 	Update(id int64, data T) error

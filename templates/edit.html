@@ -13,7 +13,7 @@
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
             <div class="container mx-auto px-6 py-5">
                 <div class="p-3 w-1/2 bg-white shadow-md rounded-md border">
-                    <form name="addModel" action="/admin/auth/{{.name}}/{{.id}}" method="post">
+                    <form name="addModel" action="/admin/{{.name}}/{{.id}}" method="post">
                         {{- range $value := .form }}
                             <label class="text-gray-700 mt-1 ">{{ $value.Label }}</label>
                             {{- if eq $value.Type "select" }}

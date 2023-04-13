@@ -8,7 +8,7 @@ import (
 var (
 	LoginPath    = "/admin/login/"
 	RegisterPath = "/admin/register/"
-	HomePath     = "/admin/auth/"
+	HomePath     = "/admin/"
 )
 
 func Init(r *gin.Engine, a Admin) {

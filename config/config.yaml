@@ -2,7 +2,7 @@ domain: 'localhost'
 
 admin:
   enable: true
-  auth: false
+  auth: true
 
 jwt:
   signing-key: 'gingo'

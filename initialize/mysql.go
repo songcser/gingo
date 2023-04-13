@@ -44,7 +44,6 @@ var orm = new(_gorm)
 type _gorm struct{}
 
 // Config gorm 自定义配置
-// Author [SliverHorn](https://github.com/SliverHorn)
 func (g *_gorm) Config(prefix string, singular bool) *gorm.Config {
 	cfg := &gorm.Config{
 		// 命名策略
@@ -72,7 +71,7 @@ func (g *_gorm) Config(prefix string, singular bool) *gorm.Config {
 	switch logMode.GetLogMode() {
 	case "silent", "Silent":
 		cfg.Logger = _default.LogMode(logger.Silent)
-	case "error", "Error":
+	case "error", "Message":
 		cfg.Logger = _default.LogMode(logger.Error)
 	case "warn", "Warn":
 		cfg.Logger = _default.LogMode(logger.Warn)

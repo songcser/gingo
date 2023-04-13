@@ -6,7 +6,8 @@ import (
 )
 
 func InitRouter(g *gin.RouterGroup) {
-	r := router.NewRouter("app", g)
+	r := router.NewRouter(g.Group("app"))
 	a := NewApi()
 	r.BindApi("", a)
+	r.BindGet("hello", a.Hello) //
 }

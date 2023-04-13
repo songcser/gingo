@@ -18,12 +18,11 @@ func Gorm() *gorm.DB {
 }
 
 // RegisterTables 注册数据库表专用
-// Author SliverHorn
 func RegisterTables(db *gorm.DB) {
 	err := db.Set("gorm:table_options", "CHARSET=utf8mb4").AutoMigrate(
 		// 系统模块表
 		auth.BaseUser{},
-		app.App{},
+		app.App{}, // app表注册
 	)
 	if err != nil {
 		os.Exit(0)

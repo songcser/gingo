@@ -9,6 +9,6 @@ import (
 
 func Swagger(r *gin.Engine) {
 	//docs.SwaggerInfo.BasePath = "/api/v1"
-	doc.InitSwagger(doc.SwaggerConfig{Title: "alert service api", Description: "alert service api"})
+	doc.InitSwagger(doc.SwaggerConfig{Title: "service api", Description: "service api"})
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 }

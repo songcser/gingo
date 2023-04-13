@@ -3,7 +3,6 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/songcser/gingo/pkg/api"
-	"github.com/songcser/gingo/pkg/doc"
 	"net/http"
 )
 
@@ -11,8 +10,8 @@ type DefaultRouter struct {
 	Router *gin.RouterGroup
 }
 
-func NewRouter(group string, r *gin.RouterGroup) DefaultRouter {
-	return DefaultRouter{Router: r.Group(group)}
+func NewRouter(r *gin.RouterGroup) DefaultRouter {
+	return DefaultRouter{Router: r}
 }
 
 func (d DefaultRouter) BindApi(path string, a api.Api) {
@@ -41,5 +40,4 @@ func (d DefaultRouter) BindDelete(path string, handle gin.HandlerFunc) {
 
 func (d DefaultRouter) Bind(method string, path string, handle gin.HandlerFunc) {
 	d.Router.Handle(method, path, handle)
-	doc.AddSwaggerHandle(handle, d.Router.BasePath()+path)
 }

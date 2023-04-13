@@ -12,7 +12,6 @@ import (
 
 // Viper //
 // 优先级: 命令行 > 环境变量 > 默认值
-// Author [SliverHorn](https://github.com/SliverHorn)
 func Viper(path ...string) *viper.Viper {
 	var cfg string
 
