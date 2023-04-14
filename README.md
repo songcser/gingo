@@ -551,13 +551,13 @@ http://localhost:8080/admin/
 ```
 > 首页
 
-![img.png](docs/img/img.png)
+![首页](https://raw.githubusercontent.com/songcser/gingo/master/docs/img/img.png)
 
 > 点击应用，查看应用列表
 
-![img.png](docs/img/list.png)
+![列表](https://raw.githubusercontent.com/songcser/gingo/master/docs/img/list.png)
 
 > 点击 创建应用 按钮
 
-![img.png](docs/img/add.png)
+![新建](https://raw.githubusercontent.com/songcser/gingo/master/docs/img/add.png)
 
