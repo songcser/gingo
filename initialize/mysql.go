@@ -89,6 +89,7 @@ func GormMysql() *gorm.DB {
 	if m.Dbname == "" {
 		return nil
 	}
+	fmt.Println(m.Dsn())
 	mysqlConfig := mysql.Config{
 		DSN:                       m.Dsn(), // DSN data source name
 		DefaultStringSize:         191,     // string 类型字段的默认长度

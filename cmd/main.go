@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"github.com/songcser/gingo/config"
@@ -44,6 +45,9 @@ func main() {
 		// 程序结束前关闭数据库链接
 		db, _ := config.GVA_DB.DB()
 		defer db.Close()
+	} else {
+		fmt.Println("数据库启动失败...")
+		return
 	}
 
 	// 初始化Router

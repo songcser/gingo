@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: gingo
+      MYSQL_PASSWORD: 123456
+    ports:
+      - '3306:3306'
+    networks:
+      - gingo-network
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - gingo-network
+    command: sh -c './wait-for.sh db:3306 -- ./main'
+
+networks:
+  gingo-network:
+    driver: bridge

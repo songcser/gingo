@@ -11,7 +11,7 @@ jwt:
   issuer: 'gingo'
 
 mysql:
-  path: 'localhost'
+  path: 'db'
   port: '3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
   db-name: 'gingo'
