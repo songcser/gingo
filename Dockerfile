@@ -1,5 +1,6 @@
 FROM golang:1.21.1
 
+
 RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 
 RUN apt-get -q update && apt-get -qy install netcat
