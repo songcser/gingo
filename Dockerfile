@@ -1,4 +1,5 @@
-FROM golang:1.21.0
+FROM golang:1.21.1
+
 
 RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 
