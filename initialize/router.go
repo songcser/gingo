@@ -10,7 +10,7 @@ import (
 )
 
 func HealthCheck(g *gin.Context) {
-	g.JSON(http.StatusOK, "ok")
+	g.JSON(http.StatusOK, "ok...")
 }
 
 func Routers() *gin.Engine {
